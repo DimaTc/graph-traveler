@@ -1,0 +1,29 @@
+.graph-area{
+    /* margin: auto; */
+    margin:auto;
+    display: grid;
+    /* flex-wrap: wrap; */
+    width: 90%;
+    height:80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue;
+}
+
+.tile{
+    cursor: pointer;
+    background-color:lightcyan;
+    border: 1px solid black;
+    transition:background-color .22s;
+}
+.tile:hover{
+    background-color:rgb(158, 253, 229);
+}
+.tile-test{
+    background-color: greenyellow;
+}
+table{
+    border:none;
+    border-collapse: collapse;
+}

@@ -1,0 +1,26 @@
+.top-menu {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sub-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.maze-solvers {
+  display: grid;
+  grid-template-columns: 20% 30% 40%;
+  column-gap: 5%;
+}
+
+.maze-generation {
+  display: grid;
+  grid-template-columns: 20% 20%;
+  column-gap: 5%;
+}

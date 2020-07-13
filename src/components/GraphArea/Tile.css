@@ -1,0 +1,6 @@
+.tile{
+    cursor: pointer;
+    background-color:lightcyan;
+    border: 1px solid black;
+    transition:background-color .22s;
+}
