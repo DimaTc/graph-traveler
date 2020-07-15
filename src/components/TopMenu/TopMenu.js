@@ -66,10 +66,18 @@ class TopMenu extends Component {
               {this.getOptionsFromArray(getMazeSolvers())}
             </Select>
           </FormControl>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={this.props.solveCallback}>
             Solve
           </Button>
-          <Slider onChange={this.changeSpeed} defaultValue={1500} step={200} min={100} max={3000}aria-labelledby="discrete-slider" marks />
+          <Slider
+            onChange={this.changeSpeed}
+            defaultValue={1500}
+            step={200}
+            min={100}
+            max={3000}
+            aria-labelledby="discrete-slider"
+            marks
+          />
         </div>
 
         <div className="sub-section">

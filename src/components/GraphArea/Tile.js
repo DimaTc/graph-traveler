@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Tile.css"
+import "./Tile.css";
 class Tile extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +7,7 @@ class Tile extends Component {
   }
 
   getCurrentCSS = () => {
-    let cls = "tile";
+    let cls = "tile ";
     switch (this.props.type) {
       case "start":
         return cls + "tile-start";
@@ -19,6 +19,8 @@ class Tile extends Component {
         return cls + "tile-current";
       case "path":
         return cls + "tile-path";
+      case "wall":
+        return cls + "tile-wall";
       default:
         return cls;
     }
@@ -26,7 +28,7 @@ class Tile extends Component {
 
   render() {
     let styles = { width: this.props.width, height: this.props.height };
-    return <td className={this.getCurrentCSS()} style={styles}></td>;
+    return <td id={this.props.id} key={this.props.id} className={this.getCurrentCSS()} style={styles}></td>;
   }
 }
 

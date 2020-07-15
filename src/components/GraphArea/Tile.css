@@ -1,6 +1,22 @@
-.tile{
-    cursor: pointer;
-    background-color:lightcyan;
-    border: 1px solid black;
-    transition:background-color .22s;
+.tile {
+  cursor: pointer;
+  background-color: lightcyan;
+  border: 1px solid black;
+  transition: background-color 0.22s;
+}
+
+.tile-start {
+  background-color: blue;
+}
+.tile-end {
+  background-color: red;
+}
+.tile-visited {
+  background-color: lightseagreen;
+}
+.tile-current {
+  background-color: cyan;
+}
+.tile-path {
+  background-color: yellow;
 }

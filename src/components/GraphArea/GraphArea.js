@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./GraphArea.css";
 import Tile from "./Tile";
+import { generateGraph } from "../../logic/GraphLogic";
 class GraphArea extends Component {
   constructor(props) {
     super(props);
-    this.state = { size: 900, ids: [8, 76, 347] };
+    this.cache = { tiles: [], count: 0 };
+    this.state = { size: 1200, ids: [8, 76, 347], tiles: [] };
   }
 
   componentDidMount() {
@@ -13,17 +15,35 @@ class GraphArea extends Component {
   }
 
   updateSizes = () => {
+    this.cache = { ...this.cache, tiles: [] };
     let graphArea = document.getElementById("graph-area");
-    //TODO: make less generic names
-    let w = graphArea.clientWidth;
-    let h = graphArea.clientHeight;
-    let l = Math.sqrt((w * h) / this.state.size);
-    this.setState({ w: w, h: h, l: l });
+    let graphW = graphArea.clientWidth;
+    let graphH = graphArea.clientHeight;
+    let l = Math.sqrt((graphW * graphH) / this.state.size);
+    let nx = Math.floor(graphW / l);
+    let ny = Math.floor(graphH / l);
+    let tileW = graphW / nx - 2;
+    let tileH = graphH / ny - 2;
+    this.setState({ graphW, graphH, nx, ny, tileW, tileH });
+    console.log(nx, ny);
+    this.props.onLoad(nx, ny);
   };
 
-  //TODO: make it compatible for data structure
-  getTile = () => {
-    if (this.state.l == undefined)
+  getTileType = (vertex) => {
+    if (this.props.start === vertex) return "start";
+    else if (this.props.end === vertex) return "end";
+    else if (this.props.wall.includes(vertex)) return "wall";
+    else if (this.props.path.includes(vertex)) return "path";
+    else if (this.props.current.includes(vertex)) return "current";
+    else if (this.props.visited.includes(vertex)) return "visited";
+    return "";
+  };
+
+  getTiles = () => {
+    if (!this.props.updateFlag && this.cache.tiles.length !== 0) return this.cache.tiles;
+    let tiles = [];
+
+    if (this.props.graph === undefined)
       return (
         <tr>
           <td>
@@ -31,20 +51,25 @@ class GraphArea extends Component {
           </td>
         </tr>
       );
-    let nx = Math.floor(this.state.w / this.state.l);
-    let ny = Math.floor(this.state.h / this.state.l);
-    let tileStyle = { width: this.state.w / nx - 2, height: this.state.h / ny - 2 };
-    let tiles = [];
-    for (let r = 0; r < ny; r++) {
-      let cells = [];
-      for (let c = 0; c < nx; c++) {
-        let id = nx * r + c;
-        let clsName = "tile";
-        if (this.props.ids != undefined && this.props.ids.includes(id)) clsName += " tile-test";
-        cells.push(<Tile width={this.state.w / nx - 2} height={this.state.h / ny - 2} />); //TODO: implement Vector of vertices and edges
-      }
-      tiles.push(<tr key={"row-" + r}>{cells}</tr>);
-    }
+    let rows = this.props.graph.vertices.reduce((res, id) => {
+      let resI = Math.floor(id / this.state.nx);
+      if (res[resI] === undefined) res[resI] = [];
+      let t = this.getTileType(id);
+      res[resI].push(
+        <Tile
+          id={id}
+          key={id}
+          width={this.state.tileW}
+          height={this.state.tileH}
+          neighbors={this.props.graph.edges[id]}
+          type={t}
+        />
+      );
+      return res;
+    }, []);
+    tiles = rows.map((row, i) => <tr key={"row-" + i}>{row}</tr>);
+    this.cache = { ...this.cache, tiles, count: this.props.graph.vertices.length };
+    this.props.onUpdateDone();
     return tiles;
   };
 
@@ -52,7 +77,7 @@ class GraphArea extends Component {
     return (
       <div className="graph-area" id="graph-area">
         <table>
-          <tbody>{this.getTile()}</tbody>
+          <tbody>{this.getTiles()}</tbody>
         </table>
       </div>
     );
