@@ -11,15 +11,7 @@
     background-color: lightblue;
 }
 
-.tile{
-    cursor: pointer;
-    background-color:lightcyan;
-    border: 1px solid black;
-    transition:background-color .22s;
-}
-.tile:hover{
-    background-color:rgb(158, 253, 229);
-}
+
 .tile-test{
     background-color: greenyellow;
 }

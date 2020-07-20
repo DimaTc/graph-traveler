@@ -1,30 +1,37 @@
+import BFS from "./solvers/BFS";
+import DFS from "./solvers/DFS";
 let generators = [
   //TODO: Generate it from sub classes
   {
     name: "BFS",
     action: () => {
-      console.log("BFS");
     },
   },
   {
     name: "DFS",
     action: () => {
-      console.log("DFS");
     },
   },
   {
     name: "Dijkstra",
     action: () => {
-      console.log("BFS");
     },
   },
 ];
+
+const solvers = {
+  BFS,
+  DFS,
+};
 
 function getMazeGenerators() {
   return generators;
 }
 
-function getMazeSolvers() {
-  return generators;
+function getSolverNames() {
+  let names = [];
+  for (let n in solvers) names.push(n);
+  return names;
 }
-export { getMazeGenerators, getMazeSolvers };
+
+export { getMazeGenerators, getSolverNames, solvers };

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { getMazeGenerators, getMazeSolvers } from "../../logic/AlgorithmManager";
+import { getMazeGenerators, getSolverNames } from "../../logic/AlgorithmManager";
 import { Button, Slider, Select, MenuItem, FormControl, InputLabel, Box } from "@material-ui/core";
 import "./TopMenu.css";
+import SolveControl from "./SolveControl";
 
 //TODO: implement logic for selecting an algorithm
 //TODO: pass callback to props here
@@ -26,12 +27,10 @@ class TopMenu extends Component {
 
   changeSpeed = (elem, v) => {
     this.props.speedCallback(v);
-    // console.log(v);
   };
 
   selectSolver = (elem) => {
     this.setState({ solver: elem.target.value });
-    console.log(elem);
   };
 
   selectGenerator = (elem) => {
@@ -51,7 +50,7 @@ class TopMenu extends Component {
               label="Generators"
               onChange={this.selectGenerator}
             >
-              {this.getOptionsFromArray(getMazeSolvers())}
+              {this.getOptionsFromArray(getSolverNames())}
             </Select>
           </FormControl>
           <Button variant="contained" color="secondary">
@@ -59,26 +58,7 @@ class TopMenu extends Component {
           </Button>
         </div>
 
-        <div className="sub-section maze-solvers">
-          <FormControl variant="outlined">
-            <InputLabel>Solvers</InputLabel>
-            <Select name="solvers" id="solvers" value={this.state.solver} label="Solvers" onChange={this.selectSolver}>
-              {this.getOptionsFromArray(getMazeSolvers())}
-            </Select>
-          </FormControl>
-          <Button variant="contained" color="primary" onClick={this.props.solveCallback}>
-            Solve
-          </Button>
-          <Slider
-            onChange={this.changeSpeed}
-            defaultValue={1500}
-            step={200}
-            min={100}
-            max={3000}
-            aria-labelledby="discrete-slider"
-            marks
-          />
-        </div>
+        <SolveControl />
 
         <div className="sub-section">
           <div className="legend">

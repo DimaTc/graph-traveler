@@ -1,81 +1,65 @@
 import React, { Component } from "react";
 import "./GraphArea.css";
-import Tile from "./Tile";
+import Tile, { TILE } from "./Tile";
+import { connect } from "react-redux";
+import { placeStart, updateGraph } from "../../logic/redux/graphSlice";
 import { generateGraph } from "../../logic/GraphLogic";
+
+const mapStateToProps = (state) => {
+  let vertices = state.graph.graphData.vertices;
+  return { vertices };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    placeStart: (vertex) => dispatch(placeStart(vertex)),
+    updateGraph: (nx, ny) => {
+      updateGraph(generateGraph(nx, ny));
+    },
+  };
+};
+
 class GraphArea extends Component {
   constructor(props) {
     super(props);
-    this.cache = { tiles: [], count: 0 };
-    this.state = { size: 1200, ids: [8, 76, 347], tiles: [] };
+    this.state = { rows: 0, columns: 0 };
   }
-
   componentDidMount() {
     this.updateSizes();
-    window.addEventListener("resize", this.updateSizes);
   }
 
   updateSizes = () => {
-    this.cache = { ...this.cache, tiles: [] };
-    let graphArea = document.getElementById("graph-area");
+    let graphArea = document.getElementById("graph-area2");
     let graphW = graphArea.clientWidth;
     let graphH = graphArea.clientHeight;
-    let l = Math.sqrt((graphW * graphH) / this.state.size);
-    let nx = Math.floor(graphW / l);
-    let ny = Math.floor(graphH / l);
-    let tileW = graphW / nx - 2;
-    let tileH = graphH / ny - 2;
-    this.setState({ graphW, graphH, nx, ny, tileW, tileH });
-    console.log(nx, ny);
-    this.props.onLoad(nx, ny);
-  };
-
-  getTileType = (vertex) => {
-    if (this.props.start === vertex) return "start";
-    else if (this.props.end === vertex) return "end";
-    else if (this.props.wall.includes(vertex)) return "wall";
-    else if (this.props.path.includes(vertex)) return "path";
-    else if (this.props.current.includes(vertex)) return "current";
-    else if (this.props.visited.includes(vertex)) return "visited";
-    return "";
+    // let l = Math.sqrt((graphW * graphH) / 1200);
+    let l = TILE + 2; //+2 for border
+    let columns = Math.floor(graphW / l);
+    let rows = Math.floor(graphH / l);
+    let tileW = graphW / columns - 2;
+    let tileH = graphH / rows - 2;
+    this.setState({ graphW, graphH, columns, rows, tileW, tileH });
+    this.props.onLoad(columns, rows);
+    this.props.updateGraph(columns, rows);
   };
 
   getTiles = () => {
-    if (!this.props.updateFlag && this.cache.tiles.length !== 0) return this.cache.tiles;
     let tiles = [];
-
-    if (this.props.graph === undefined)
-      return (
-        <tr>
-          <td>
-            <h1>nope</h1>
-          </td>
-        </tr>
-      );
-    let rows = this.props.graph.vertices.reduce((res, id) => {
-      let resI = Math.floor(id / this.state.nx);
-      if (res[resI] === undefined) res[resI] = [];
-      let t = this.getTileType(id);
-      res[resI].push(
-        <Tile
-          id={id}
-          key={id}
-          width={this.state.tileW}
-          height={this.state.tileH}
-          neighbors={this.props.graph.edges[id]}
-          type={t}
-        />
-      );
-      return res;
-    }, []);
-    tiles = rows.map((row, i) => <tr key={"row-" + i}>{row}</tr>);
-    this.cache = { ...this.cache, tiles, count: this.props.graph.vertices.length };
-    this.props.onUpdateDone();
+    this.props.vertices.forEach((v) => {});
+    for (let r = 0; r < Math.floor(this.props.vertices.length / this.state.columns); r++) {
+      let cells = [];
+      for (let c = 0; c < Math.floor(this.props.vertices.length / this.state.rows); c++) {
+        let id = this.state.columns * r + c;
+        cells.push(<Tile id={id} key={id} />);
+      }
+      tiles.push(<tr key={"row-" + r}>{cells}</tr>);
+    }
     return tiles;
   };
 
   render() {
     return (
-      <div className="graph-area" id="graph-area">
+      <div className="graph-area" id="graph-area2">
         <table>
           <tbody>{this.getTiles()}</tbody>
         </table>
@@ -84,4 +68,4 @@ class GraphArea extends Component {
   }
 }
 
-export default GraphArea;
+export default connect(mapStateToProps, mapDispatchToProps)(GraphArea);

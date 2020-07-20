@@ -6,7 +6,7 @@
 }
 
 .tile-start {
-  background-color: blue;
+  background-color: green;
 }
 .tile-end {
   background-color: red;
@@ -19,4 +19,8 @@
 }
 .tile-path {
   background-color: yellow;
+}
+.tile-wall{
+  background-color: darkblue;
+  
 }

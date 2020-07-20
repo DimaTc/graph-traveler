@@ -1,5 +1,4 @@
 function generateGraph(nx, ny) {
-  console.log(nx, ny, nx * ny);
   let vertices = [];
   let edges = {};
   for (let r = 0; r < ny; r++)
