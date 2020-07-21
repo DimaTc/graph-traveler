@@ -1,7 +1,11 @@
 .controls-menu {
-  width: 100%;
+  width: 30%;
   height: 10%;
+  margin: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+.controls-menu > div {
+  width: 40%;
 }

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSolverNames } from "../AlgorithmManager";
+import { getSolverNames, getMazeGenerators } from "../AlgorithmManager";
 import graphReducer from "./reducers/reducers";
 export const graphSlice = createSlice({
   name: "graph",
@@ -13,16 +13,18 @@ export const graphSlice = createSlice({
       queue: [],
       drawPath: false,
       goal: -1,
+      start: -1,
       running: false,
     },
     solveSpeed: 200,
     wall: [],
     start: 128,
     end: -1,
+    paused: false,
     timeoutId: undefined,
     algorithms: {
       solve: getSolverNames()[0],
-      generate: undefined,
+      generate: getMazeGenerators()[0],
       solveArr: getSolverNames(),
     },
   },
@@ -33,16 +35,17 @@ export const {
   step,
   solve,
   reset,
-  stop,
+  pause,
+  resume,
+  clear,
   wallATile,
   generateMaze,
-  drawPath,
   placeStart,
   updateGraph,
   removeAWall,
   updateSpeed,
   setTimeoutId,
-  setSolveAlgorithm,
+  setAlgorithm,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

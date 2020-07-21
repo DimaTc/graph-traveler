@@ -19,6 +19,24 @@ function generateGraph(nx, ny) {
   return { vertices, edges };
 }
 
-function removeEdge(v, e) {}
+const removeEdge = (e, node) => {
+  let edges = { ...e };
+  let neighbors = edges[node];
+  neighbors.forEach((n) => {
+    edges[n] = edges[n].filter((v) => v !== node);
+  });
+  edges[node] = [];
+  return edges;
+};
 
-export { generateGraph };
+const restoreEdge = (e, neighbors, walls, node) => {
+  let edges = { ...e };
+
+  neighbors.forEach((n) => {
+    if (!walls.includes(n)) edges[n] = [...edges[n], node];
+  });
+  edges[node] = [...neighbors.filter((n) => !walls.includes(n))];
+  return edges;
+};
+
+export { generateGraph, removeEdge, restoreEdge };

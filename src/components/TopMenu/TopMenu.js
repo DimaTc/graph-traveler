@@ -3,6 +3,7 @@ import { getMazeGenerators, getSolverNames } from "../../logic/AlgorithmManager"
 import { Button, Slider, Select, MenuItem, FormControl, InputLabel, Box } from "@material-ui/core";
 import "./TopMenu.css";
 import SolveControl from "./SolveControl";
+import GeneratorControl from "./GeneratorControl";
 
 //TODO: implement logic for selecting an algorithm
 //TODO: pass callback to props here
@@ -40,23 +41,7 @@ class TopMenu extends Component {
   render() {
     return (
       <div className="top-menu">
-        <div className="sub-section maze-generation">
-          <FormControl variant="outlined">
-            <InputLabel>Generators</InputLabel>
-            <Select
-              name="generators"
-              id="generators"
-              value={this.state.generator}
-              label="Generators"
-              onChange={this.selectGenerator}
-            >
-              {this.getOptionsFromArray(getSolverNames())}
-            </Select>
-          </FormControl>
-          <Button variant="contained" color="secondary">
-            Generate
-          </Button>
-        </div>
+        <GeneratorControl />
 
         <SolveControl />
 

@@ -7,7 +7,6 @@ export default function BFS(graphState) {
     let currentVertex = tmpQueue.pop(); //get the next one (fifo)
     let neighbors = edges[currentVertex];
     neighbors = neighbors.filter((v) => !visited.includes(v) && !queue.includes(v));
-    console.log([...neighbors]);
     neighbors.forEach((v) => (parentDict[v] = currentVertex));
     queue = [...neighbors, ...queue];
     visited.push(currentVertex);

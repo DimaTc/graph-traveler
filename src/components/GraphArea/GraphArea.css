@@ -1,10 +1,8 @@
 .graph-area{
-    /* margin: auto; */
     margin:auto;
     display: grid;
-    /* flex-wrap: wrap; */
     width: 90%;
-    height:80%;
+    height:79%;
     display: flex;
     align-items: center;
     justify-content: center;

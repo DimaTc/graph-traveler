@@ -5,6 +5,7 @@ import GraphArea from "./components/GraphArea/GraphArea";
 import { generateGraph } from "./logic/GraphLogic";
 import { useDispatch } from "react-redux";
 import { updateGraph } from "./logic/redux/graphSlice";
+import ControlsMenu from "./components/ControlsMenu/ControlsMenu";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const App = () => {
     <div className="App">
       <TopMenu />
       <GraphArea onLoad={(nx, ny) => dispatch(updateGraph(generateGraph(nx, ny)))} />
+      <ControlsMenu />
     </div>
   );
 };

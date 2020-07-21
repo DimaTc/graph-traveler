@@ -36,7 +36,7 @@ const toggleWall = (dispatch, type, id) => {
 const Tile = (props) => {
   const dispatch = useDispatch();
   let cellState = useSelector((state) => state.graph.graphData.data[props.id]);
-  let styles = { width: 25, height: 25 };
+  let styles = { width: TILE, height: TILE };
   return (
     <td
       id={props.id}
