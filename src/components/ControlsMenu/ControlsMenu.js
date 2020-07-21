@@ -25,7 +25,9 @@ export default (props) => {
       >
         Reset
       </Button>
-      <Button variant="contained">Clear</Button>
+      <Button variant="contained" onClick={(e) => dispatch(clear())}>
+        Clear
+      </Button>
       <div>
         <Slider
           onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} //TODO: remove hard coded values

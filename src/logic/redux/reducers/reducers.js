@@ -104,7 +104,12 @@ export default {
   resume: (state) => {
     state.paused = false;
   },
-  clear: (state) => {},
+  clear: (state) => {
+    state.graphData.vertices.forEach((v) => {
+      state.graphData.edges[v] = state.graphData.data[v].neighbors;
+      if (state.graphData.data[v].type !== "start" && state.graphData.data[v].type !== "end") state.graphData.data[v].type = "";
+    });
+  },
   updateSpeed: (state, action) => {
     state.solveSpeed = action.payload;
   },
@@ -140,12 +145,7 @@ export default {
 
   generateMaze: (state) => {
     //TODO: make the generation step by step like the solving algorithms
-    //restore edges and clear walls
-    state.graphData.vertices.forEach((v) => {
-      state.graphData.edges[v] = state.graphData.data[v].neighbors;
-      if (state.graphData.data[v].type !== "start" && state.graphData.data[v].type !== "end") state.graphData.data[v].type = "";
-    });
-    //
+
     let f = generators[state.algorithms.generate];
     let walls = f(state.graphData);
     walls.forEach((w) => {
