@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, Select, Button, Slider, MenuItem } from "@material-ui/core";
+import { FormControl, InputLabel, Select, Button, MenuItem } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { solve, reset, step, setAlgorithm, setTimeoutId } from "../../logic/redux/graphSlice";
 import { getSolverNames } from "../../logic/AlgorithmManager";

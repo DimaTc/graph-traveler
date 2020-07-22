@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Tile.css";
 import { useSelector, useDispatch } from "react-redux";
 import { wallATile, removeAWall } from "../../logic/redux/graphSlice";
@@ -24,12 +24,11 @@ const getCurrentCSS = (type) => {
 };
 const toggleWall = (dispatch, type, id) => {
   switch (type) {
-    case "":
-      dispatch(wallATile(id));
-      break;
     case "wall":
       dispatch(removeAWall(id));
       break;
+    default:
+      dispatch(wallATile(id));
   }
 };
 

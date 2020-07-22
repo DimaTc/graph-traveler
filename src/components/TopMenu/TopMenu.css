@@ -16,7 +16,7 @@
 
 .maze-solvers {
   display: grid;
-  grid-template-columns: 20% 30% 40%;
+  grid-template-columns: 20% 30%;
   column-gap: 5%;
 }
 
@@ -24,4 +24,22 @@
   display: grid;
   grid-template-columns: 20% 20%;
   column-gap: 5%;
+}
+.legend {
+  display: grid;
+  grid-template-columns: 15% 15% 15% 15%;
+  column-gap: 5%;
+  margin: 0;
+  padding: 0;
+}
+.legend > li {
+  display: inline-block;
+  justify-self: center;
+}
+.legend > li > p {
+  margin: auto auto;
+  display: inline-block;
+}
+.legend > li > div {
+  margin: auto;
 }

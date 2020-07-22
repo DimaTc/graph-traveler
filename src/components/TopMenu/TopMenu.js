@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import { getMazeGenerators, getSolverNames } from "../../logic/AlgorithmManager";
-import { Button, Slider, Select, MenuItem, FormControl, InputLabel, Box } from "@material-ui/core";
+import React from "react";
 import "./TopMenu.css";
 import SolveControl from "./SolveControl";
 import GeneratorControl from "./GeneratorControl";
-
+import { TILE } from "../GraphArea/Tile";
 export default (props) => {
   return (
     <div className="top-menu">
@@ -12,11 +10,24 @@ export default (props) => {
 
       <SolveControl />
 
-      <div className="sub-section">
-        <div className="legend">
-          <p>•Items description</p>
-        </div>
+        <ul className="sub-section legend">
+          <li>
+            <p>Start</p>
+            <div style={{ width: TILE, height: TILE }} className="tile-start"></div>
+          </li>
+          <li>
+            <p>Goal</p>
+            <div style={{ width: TILE, height: TILE }} className="tile-end"></div>
+          </li>
+          <li>
+            <p>Wall</p>
+            <div style={{ width: TILE, height: TILE }} className="tile-wall"></div>
+          </li>
+          <li>
+            <p>Path</p>
+            <div style={{ width: TILE, height: TILE }} className="tile-path"></div>
+          </li>
+        </ul>
       </div>
-    </div>
   );
 };

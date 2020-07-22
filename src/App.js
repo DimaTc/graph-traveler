@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import TopMenu from "./components/TopMenu/TopMenu";
 import "./App.css";
 import GraphArea from "./components/GraphArea/GraphArea";

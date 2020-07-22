@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import "./ControlsMenu.css";
-import { Slider, Box, Button } from "@material-ui/core";
+import { Slider, Button, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSpeed, pause, reset, clear, resume } from "../../logic/redux/graphSlice";
 export default (props) => {
   const dispatch = useDispatch();
   const paused = useSelector((state) => state.graph.paused);
+  const solveSpeed = useSelector((state) => state.graph.solveSpeed);
   return (
     <div className="controls-menu">
       <Button
@@ -29,6 +30,7 @@ export default (props) => {
         Clear
       </Button>
       <div>
+        <Typography gutterBottom>Speed</Typography>
         <Slider
           onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} //TODO: remove hard coded values
           defaultValue={750}
@@ -36,6 +38,8 @@ export default (props) => {
           min={500}
           max={1000}
           aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          valueLabelFormat={(v) => 1010 - v }
           marks
         />
       </div>

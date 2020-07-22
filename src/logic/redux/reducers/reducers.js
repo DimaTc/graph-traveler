@@ -115,7 +115,7 @@ export default {
   },
   wallATile: (state, action) => {
     let { type } = state.graphData.data[action.payload];
-    if (type != "") return;
+    if (type !== "") return;
     state.wall.push(action.payload);
     state.graphData.data[action.payload].type = "wall";
     state.graphData.edges = { ...removeEdge(state.graphData.edges, action.payload) };
@@ -136,9 +136,8 @@ export default {
       case "solve":
         algorithmDict = solvers;
         break;
-      case "generate":
+      default:
         algorithmDict = generators;
-        break;
     }
     if (algorithmDict[value] !== undefined) state.algorithms[type] = value;
   },
