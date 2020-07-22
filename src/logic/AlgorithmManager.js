@@ -1,8 +1,10 @@
 import BFS from "./solvers/BFS";
 import DFS from "./solvers/DFS";
-import Random from "./maze/random";
+import Random from "./maze/Random";
+import DFSGenerate from "./maze/DFS";
+// import Recursive from "./maze/Recursive";
 
-const generators = { Random };
+const generators = { Random, DFS: DFSGenerate };
 
 const solvers = {
   BFS,

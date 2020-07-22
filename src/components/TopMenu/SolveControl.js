@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, InputLabel, Select, Button, MenuItem } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { solve, reset, step, setAlgorithm, setTimeoutId } from "../../logic/redux/graphSlice";
+import { solve, reset, step, setAlgorithm, setIntervalId } from "../../logic/redux/graphSlice";
 import { getSolverNames } from "../../logic/AlgorithmManager";
 
 const getOptionsFromArray = (arr) => {
@@ -15,10 +15,10 @@ const getOptionsFromArray = (arr) => {
 const solveHelper = (dispatch, delay, runSolver, oldTimeout) => {
   clearInterval(oldTimeout);
   if (!runSolver) return;
-  let timeoutId = setInterval(() => {
+  let intervalId = setInterval(() => {
     dispatch(step());
   }, delay);
-  return timeoutId;
+  return intervalId;
 };
 
 const SolveControl = (props) => {
@@ -26,12 +26,12 @@ const SolveControl = (props) => {
   const runSpeed = useSelector((state) => state.graph.solveSpeed);
   const runSolver = useSelector((state) => state.graph.graphData.running);
   const oldTimeout = useSelector(
-    (state) => state.graph.timeoutId,
+    (state) => state.graph.intervalId.solve,
     () => true
   );
   const dispatch = useDispatch();
-  let timeoutId = solveHelper(dispatch, runSpeed, runSolver, oldTimeout);
-  dispatch(setTimeoutId(timeoutId));
+  let intervalId = solveHelper(dispatch, runSpeed, runSolver, oldTimeout);
+  dispatch(setIntervalId({ type: "solve", value: intervalId }));
 
   return (
     <div className="sub-section maze-solvers">

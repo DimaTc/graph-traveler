@@ -82,8 +82,12 @@ export default {
   solve: (state) => {
     state.graphData.running = true;
   },
-  setTimeoutId: (state, action) => {
-    state.timeoutId = action.payload;
+  generate: (state) => {
+    state.generationData = { extraParams: {}, running: true, firstRun: true, queue: [state.graphData.start] };
+  },
+  setIntervalId: (state, action) => {
+    let { type, value } = action.payload;
+    state.intervalId[type] = value;
   },
   pause: (state) => {
     state.paused = true;
@@ -94,11 +98,14 @@ export default {
       if (type !== "start" && type !== "end" && type !== "wall")
         state.graphData.data[v] = { ...state.graphData.data[v], type: "" };
     });
-    state.graphData.running = false;
-    state.graphData.drawPath = false;
-    state.graphData.queue = [state.graphData.start];
-    state.graphData.visited = [];
-    state.graphData.parentDict = {};
+    state.graphData = {
+      ...state.graphData,
+      running: false,
+      drawPath: false,
+      queue: [state.graphData.start],
+      visited: [],
+      parentDict: [],
+    };
     state.paused = false;
   },
   resume: (state) => {
@@ -116,7 +123,7 @@ export default {
   wallATile: (state, action) => {
     let { type } = state.graphData.data[action.payload];
     if (type !== "") return;
-    state.wall.push(action.payload);
+    state.graphData.walls.push(action.payload);
     state.graphData.data[action.payload].type = "wall";
     state.graphData.edges = { ...removeEdge(state.graphData.edges, action.payload) };
   },
@@ -124,9 +131,9 @@ export default {
   removeAWall: (state, action) => {
     let { type, neighbors } = state.graphData.data[action.payload];
     if (type !== "wall") return;
-    state.wall = state.wall.filter((v) => v !== action.payload);
+    state.graphData.walls = state.graphData.walls.filter((v) => v !== action.payload);
     state.graphData.data[action.payload].type = "";
-    state.graphData.edges = { ...restoreEdge(state.graphData.edges, neighbors, state.wall, action.payload) };
+    state.graphData.edges = { ...restoreEdge(state.graphData.edges, neighbors, state.graphData.walls, action.payload) };
   },
 
   setAlgorithm: (state, action) => {
@@ -143,15 +150,24 @@ export default {
   },
 
   generateMaze: (state) => {
-    //TODO: make the generation step by step like the solving algorithms
-
     let f = generators[state.algorithms.generate];
-    let walls = f(state.graphData);
-    walls.forEach((w) => {
+    let { deltaWalls, deltaHoles, running, generationData, extraParams } = f(state.graphData, state.generationData);
+    state.graphData.walls = [...state.graphData.walls.filter((v) => !deltaHoles.includes(v)), ...deltaWalls];
+    deltaWalls.forEach((w) => {
+      if (w === state.graphData.start || w === state.graphData.goal) return;
       state.graphData.data[w].type = "wall";
       state.graphData.edges = { ...removeEdge(state.graphData.edges, w) };
     });
-    state.walls = [...walls];
+
+    deltaHoles.forEach((n) => {
+      if (n === state.graphData.start || n === state.graphData.goal) return;
+
+      state.graphData.data[n].type = "";
+      state.graphData.edges = {
+        ...restoreEdge(state.graphData.edges, state.graphData.data[n].neighbors, state.graphData.walls, n),
+      };
+    });
+    state.generationData = { ...generationData, running, extraParams };
   },
 
   updateGraph: (state, action) => {

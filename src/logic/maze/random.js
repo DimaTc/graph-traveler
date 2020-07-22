@@ -1,8 +1,9 @@
-export default function (graphData) {
+export default function (graphData, generationData) {
   let { start, goal, vertices } = graphData;
-  let walls = [];
+  let deltaWalls = [],
+    deltaHoles = [];
   vertices.forEach((v) => {
-    if (Math.random() > 0.7 && v !== start && v !== goal) walls.push(v);
+    if (Math.random() > 0.7 && v !== start && v !== goal) deltaWalls.push(v);
   });
-  return walls;
+  return { running: false, deltaHoles, deltaWalls, generationData };
 }

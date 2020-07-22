@@ -15,13 +15,23 @@ export const graphSlice = createSlice({
       goal: -1,
       start: -1,
       running: false,
+      walls: [],
+    },
+    generationData: {
+      running: false,
+      intervalId: undefined,
+      queue: [],
+      firstRun: true,
+      extraParams: {},
     },
     solveSpeed: 200,
-    wall: [],
     start: 128,
     end: -1,
     paused: false,
-    timeoutId: undefined,
+    intervalId: {
+      solve: undefined,
+      generate: undefined,
+    },
     algorithms: {
       solve: getSolverNames()[0],
       generate: getMazeGenerators()[0],
@@ -34,6 +44,7 @@ export const graphSlice = createSlice({
 export const {
   step,
   solve,
+  generate,
   reset,
   pause,
   resume,
@@ -44,7 +55,7 @@ export const {
   updateGraph,
   removeAWall,
   updateSpeed,
-  setTimeoutId,
+  setIntervalId,
   setAlgorithm,
 } = graphSlice.actions;
 
