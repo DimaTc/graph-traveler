@@ -112,6 +112,7 @@ export default {
     state.paused = false;
   },
   clear: (state) => {
+    state.graphData.walls = []
     state.graphData.vertices.forEach((v) => {
       state.graphData.edges[v] = state.graphData.data[v].neighbors;
       if (state.graphData.data[v].type !== "start" && state.graphData.data[v].type !== "end") state.graphData.data[v].type = "";
@@ -122,7 +123,7 @@ export default {
   },
   wallATile: (state, action) => {
     let { type } = state.graphData.data[action.payload];
-    if (type !== "") return;
+    if (type !== "" || state.graphData.walls.includes(action.payload)) return;
     state.graphData.walls.push(action.payload);
     state.graphData.data[action.payload].type = "wall";
     state.graphData.edges = { ...removeEdge(state.graphData.edges, action.payload) };

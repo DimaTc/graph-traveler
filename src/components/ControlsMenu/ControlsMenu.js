@@ -26,7 +26,13 @@ export default (props) => {
       >
         Reset
       </Button>
-      <Button variant="contained" onClick={(e) => dispatch(clear())}>
+      <Button
+        variant="contained"
+        onClick={(e) => {
+          dispatch(reset());
+          dispatch(clear());
+        }}
+      >
         Clear
       </Button>
       <div>
@@ -39,7 +45,7 @@ export default (props) => {
           max={1000}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          valueLabelFormat={(v) => 1010 - v }
+          valueLabelFormat={(v) => 1010 - v}
           marks
         />
       </div>

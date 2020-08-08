@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMazeGenerators } from "../../logic/AlgorithmManager";
 import { Button, Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
-import { setAlgorithm, generateMaze, clear, generate, setIntervalId } from "../../logic/redux/graphSlice";
+import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset } from "../../logic/redux/graphSlice";
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
     <MenuItem key={v} value={v}>
@@ -51,6 +51,7 @@ export default (props) => {
         variant="contained"
         color="secondary"
         onClick={(e) => {
+          dispatch(reset());
           dispatch(clear());
           dispatch(generate());
         }}

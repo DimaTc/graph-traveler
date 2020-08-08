@@ -5,6 +5,7 @@ export default function BFS(graphState) {
   queue = [];
   while (tmpQueue.length > 0) {
     let currentVertex = tmpQueue.pop(); //get the next one (fifo)
+    // let currentVertex = queue.pop(); //get the next one (fifo)
     let neighbors = edges[currentVertex];
     neighbors = neighbors.filter((v) => !visited.includes(v) && !queue.includes(v));
     neighbors.forEach((v) => (parentDict[v] = currentVertex));
