@@ -96,7 +96,7 @@ export default {
     state.graphData.vertices.forEach((v) => {
       let { type } = state.graphData.data[v];
       if (type !== "start" && type !== "end" && type !== "wall")
-        state.graphData.data[v] = { ...state.graphData.data[v], type: "" };
+        state.graphData.data[v] = { ...state.graphData.data[v], type: "", value: 0 };
     });
     state.graphData = {
       ...state.graphData,
@@ -112,7 +112,7 @@ export default {
     state.paused = false;
   },
   clear: (state) => {
-    state.graphData.walls = []
+    state.graphData.walls = [];
     state.graphData.vertices.forEach((v) => {
       state.graphData.edges[v] = state.graphData.data[v].neighbors;
       if (state.graphData.data[v].type !== "start" && state.graphData.data[v].type !== "end") state.graphData.data[v].type = "";
@@ -177,15 +177,15 @@ export default {
     let randomStart = Math.floor(Math.random() * vertices.length); //temp
 
     state.graphData.start = randomStart;
-    state.graphData.data[randomStart] = { type: "start", neighbors: edges[randomStart] };
+    state.graphData.data[randomStart] = { type: "start", neighbors: edges[randomStart], value: 0 };
     state.graphData.queue = [randomStart];
     randomStart = Math.floor(Math.random() * vertices.length); //temp
     state.graphData.goal = randomStart;
-    state.graphData.data[randomStart] = { type: "end", neighbors: edges[randomStart] };
+    state.graphData.data[randomStart] = { type: "end", neighbors: edges[randomStart], value: 0 };
     state.graphData.goal = randomStart;
     state.graphData.edges = edges;
     vertices.forEach((v) => {
-      if (state.graphData.data[v] === undefined) state.graphData.data[v] = { type: "", neighbors: edges[v] };
+      if (state.graphData.data[v] === undefined) state.graphData.data[v] = { type: "", neighbors: edges[v], value: 0 };
     });
   },
 };

@@ -2,9 +2,10 @@ import BFS from "./solvers/BFS";
 import DFS from "./solvers/DFS";
 import Random from "./maze/Random";
 import DFSGenerate from "./maze/DFS";
+import Prim from "./maze/Prim";
 // import Recursive from "./maze/Recursive";
 
-const generators = { Random, DFS: DFSGenerate };
+const generators = { "Prim's": Prim, Random, DFS: DFSGenerate };
 
 const solvers = {
   BFS,
