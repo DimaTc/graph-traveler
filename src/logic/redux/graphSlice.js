@@ -4,7 +4,10 @@ import graphReducer from "./reducers/reducers";
 export const graphSlice = createSlice({
   name: "graph",
   initialState: {
+    selectedTile: undefined,
+    weightCheck: false,
     graphData: {
+      clean: true,
       vertices: [],
       edges: [],
       data: {},
@@ -18,15 +21,17 @@ export const graphSlice = createSlice({
       walls: [],
     },
     generationData: {
+      weighted: false,
       running: false,
       intervalId: undefined,
       queue: [],
       firstRun: true,
       extraParams: {},
     },
-    solveSpeed: 200,
+    solveSpeed: 60,
     start: 128,
     end: -1,
+
     paused: false,
     intervalId: {
       solve: undefined,
@@ -54,9 +59,12 @@ export const {
   placeStart,
   updateGraph,
   removeAWall,
+  setWeightCheck,
   updateSpeed,
   setIntervalId,
   setAlgorithm,
+  toggleWall,
+  selectTile,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

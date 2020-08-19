@@ -1,5 +1,6 @@
 .top-menu {
-  width: 100%;
+  width: 85%;
+  margin: auto;
   height: 10%;
   min-height: 100px;
   display: flex;
@@ -12,34 +13,25 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  border-radius: 1em ;
+  background-color:  white;
+  padding: 0.5em 0 ;
+  margin: 0 3em;
+  box-shadow:inset 0 0 2px 2px  #adccff;
 }
 
 .maze-solvers {
   display: grid;
-  grid-template-columns: 20% 30%;
+  grid-template-columns: 28% 28% 28%;
   column-gap: 5%;
+  width:25%;
+
 }
 
 .maze-generation {
   display: grid;
-  grid-template-columns: 20% 20%;
+  width:25%;
+
+  grid-template-columns: 25% 35% 25%;
   column-gap: 5%;
-}
-.legend {
-  display: grid;
-  grid-template-columns: 15% 15% 15% 15%;
-  column-gap: 5%;
-  margin: 0;
-  padding: 0;
-}
-.legend > li {
-  display: inline-block;
-  justify-self: center;
-}
-.legend > li > p {
-  margin: auto auto;
-  display: inline-block;
-}
-.legend > li > div {
-  margin: auto;
 }

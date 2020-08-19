@@ -1,11 +1,11 @@
 .controls-menu {
-  width: 30%;
-  height: 10%;
-  margin: auto;
-  display: flex;
+  background-color: white;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 17% 17% 30% 18%;
+  width:35%;
+  column-gap: 5%;
 }
 .controls-menu > div {
-  width: 40%;
+  width: 100%;
 }

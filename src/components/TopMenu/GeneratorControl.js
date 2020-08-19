@@ -1,8 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMazeGenerators } from "../../logic/AlgorithmManager";
-import { Button, Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
-import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset } from "../../logic/redux/graphSlice";
+import { Button, Select, MenuItem, FormControl, InputLabel, Box, Grid, Checkbox, FormControlLabel } from "@material-ui/core";
+import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset, setWeightCheck } from "../../logic/redux/graphSlice";
+import BuildIcon from "@material-ui/icons/Build";
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
+
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
     <MenuItem key={v} value={v}>
@@ -22,6 +25,7 @@ const generateHelper = (dispatch, runGenerator, oldTimeout) => {
 
 export default (props) => {
   const currentGenerator = useSelector((state) => state.graph.algorithms.generate);
+  const isWeighted = useSelector((state) => state.graph.weightCheck);
   const runGenerator = useSelector((state) => state.graph.generationData.running);
   const oldTimeout = useSelector(
     (state) => state.graph.intervalId.generate,
@@ -30,7 +34,6 @@ export default (props) => {
   const dispatch = useDispatch();
   let intervalId = generateHelper(dispatch, runGenerator, oldTimeout);
   dispatch(setIntervalId({ type: "generate", value: intervalId }));
-
   return (
     <div className="sub-section maze-generation">
       <FormControl variant="outlined">
@@ -49,15 +52,29 @@ export default (props) => {
       </FormControl>
       <Button
         variant="contained"
-        color="secondary"
+        color="primary"
+        startIcon={<BuildIcon />}
         onClick={(e) => {
           dispatch(reset());
           dispatch(clear());
-          dispatch(generate());
+          dispatch(generate(isWeighted));
         }}
       >
         Generate
       </Button>
+      <FormControlLabel
+        id="weight-checkbox"
+        control={
+          <Checkbox
+            id="weight-checkbox"
+            value="weight"
+            checked={isWeighted}
+            disabled={runGenerator}
+            onChange={(e, state) => dispatch(setWeightCheck(state))}
+          />
+        }
+        label="weighted"
+      />
     </div>
   );
 };

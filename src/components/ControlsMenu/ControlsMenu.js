@@ -1,16 +1,25 @@
 import React from "react";
 import "./ControlsMenu.css";
-import { Slider, Button, Typography } from "@material-ui/core";
+import { Slider, Button, Typography, Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSpeed, pause, reset, clear, resume } from "../../logic/redux/graphSlice";
+import DeleteIcon from "@material-ui/icons/Delete";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import PauseIcon from "@material-ui/icons/Pause";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 export default (props) => {
   const dispatch = useDispatch();
   const paused = useSelector((state) => state.graph.paused);
   const solveSpeed = useSelector((state) => state.graph.solveSpeed);
+
+  let icon = paused ? <PlayArrowIcon /> : <PauseIcon />;
+
   return (
-    <div className="controls-menu">
+    <div className="sub-section controls-menu">
       <Button
         variant="contained"
+        color="primary"
+        startIcon={icon}
         onClick={(e) => {
           if (paused) dispatch(resume());
           else dispatch(pause());
@@ -18,16 +27,11 @@ export default (props) => {
       >
         {paused ? "Resume" : "Pause"}
       </Button>
+
       <Button
         variant="contained"
-        onClick={(e) => {
-          dispatch(reset());
-        }}
-      >
-        Reset
-      </Button>
-      <Button
-        variant="contained"
+        startIcon={<DeleteIcon />}
+        color="secondary"
         onClick={(e) => {
           dispatch(reset());
           dispatch(clear());
@@ -36,10 +40,10 @@ export default (props) => {
         Clear
       </Button>
       <div>
-        <Typography gutterBottom>Speed</Typography>
+        <Typography gutterBottom>Solve Speed</Typography>
         <Slider
           onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} //TODO: remove hard coded values
-          defaultValue={750}
+          defaultValue={1010 - solveSpeed}
           step={50}
           min={500}
           max={1000}
@@ -49,6 +53,7 @@ export default (props) => {
           marks
         />
       </div>
+      <FormControlLabel className="skip-control" control={<Checkbox value="skip" />} label="skip animation" />
     </div>
   );
 };

@@ -59,7 +59,7 @@ class GraphArea extends Component {
 
   render() {
     return (
-      <div className="graph-area" id="graph-area2">
+      <div className="graph-area" id="graph-area2" onContextMenu={(e) => e.preventDefault()}>
         <table>
           <tbody>{this.getTiles()}</tbody>
         </table>

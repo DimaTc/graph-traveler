@@ -4,6 +4,7 @@ export default function (graphData, generationData) {
   let deltaWalls = [];
   let deltaHoles = [];
   if (firstRun) {
+    //first init on the first run
     vertices.forEach((v) => {
       if (v !== start && v !== goal) deltaWalls.push(v);
     });
@@ -12,9 +13,13 @@ export default function (graphData, generationData) {
   } else {
     let neighbors, filteredNeighbors, currentHead;
     do {
+      //loop until you get valid queued cell
+
+      //at the end of the run, stop
       if (queue.length === 0) return { running: false, deltaWalls: [], deltaHoles: [], generationData };
+
+      //get the last cell inserted
       currentHead = queue.shift();
-      walls = walls.filter((n) => n !== currentHead);
       neighbors = graphData.data[currentHead].neighbors;
       filteredNeighbors = neighbors.filter((n) => walls.includes(n));
     } while (neighbors.length - filteredNeighbors.length > 1 && !neighbors.includes(goal));

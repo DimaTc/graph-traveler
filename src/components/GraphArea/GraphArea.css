@@ -1,18 +1,14 @@
 .graph-area{
     margin:auto;
     display: grid;
-    width: 90%;
+    width: 85%;
     height:79%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: lightblue;
 }
 
 
-.tile-test{
-    background-color: greenyellow;
-}
 table{
     border:none;
     border-collapse: collapse;

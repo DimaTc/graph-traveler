@@ -1,0 +1,24 @@
+.legend-wrapper{
+
+    width: 30%;
+    margin: auto;
+}
+.legend {
+    display: grid;
+    grid-template-columns: 30% 30% 30% ;
+    column-gap: 5%;
+    margin: 3%;
+    padding: 1%;
+  }
+  .legend > li {
+    display: inline-block;
+    justify-self: center;
+  }
+  .legend > li > p {
+    margin: auto auto;
+    display: inline-block;
+  }
+  .legend > li > div {
+    margin: auto;
+  }
+  

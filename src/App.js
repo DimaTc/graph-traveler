@@ -6,6 +6,7 @@ import { generateGraph } from "./logic/GraphLogic";
 import { useDispatch } from "react-redux";
 import { updateGraph } from "./logic/redux/graphSlice";
 import ControlsMenu from "./components/ControlsMenu/ControlsMenu";
+import Legend from "./components/LegendArea/Legend";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const App = () => {
     <div className="App">
       <TopMenu />
       <GraphArea onLoad={(nx, ny) => dispatch(updateGraph(generateGraph(nx, ny)))} />
-      <ControlsMenu />
+      <Legend />
     </div>
   );
 };

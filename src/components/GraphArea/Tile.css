@@ -1,26 +1,94 @@
-.tile {
-  cursor: pointer;
-  background-color: lightcyan;
-  border: 1px solid black;
-  transition: background-color 0.22s;
+@keyframes pop-in {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.tile-start {
-  background-color: green;
+@keyframes pop-out {
+  0% {
+    width: 100%;
+    height: 100%;
+  }
+  100% {
+    width: 0;
+    height: 0;
+  }
 }
-.tile-end {
+
+.tile {
+  cursor: pointer;
+  padding: 0;
+  background-color: lightcyan;
+  border: 1px solid black;
+  text-align: center;
+}
+.tile-wall {
+  margin: auto;
+  overflow: hidden;
+  box-shadow: inset -1px -2px 1px 2px #00008b;
+  background-color: #2050bb;
+  background: linear-gradient(#2050bb, #15359f);
+}
+.tile-wall:hover {
+  box-shadow: inset -1px -2px 1px 2px #105fab;
+  background-color: #2050bb;
+  background: linear-gradient(#30afdb, #258fbf);
+}
+.tile-start {
+  /* background-color: green; */
+  /* background-color: #00C9A7; */
+}
+.tile-start::after {
+  content: "";
+  border-radius: 100%;
+  display: block;
+  margin: auto;
+  /* animation: pop-in 0.3s; */
+  width: 90%;
+  height: 90%;
+  overflow: hidden;
+  box-shadow: inset 0 0 0px 2px #023f12;
+  background-color: #02af22;
+}
+.tile-end::after {
+  content: "";
+  border-radius: 100%;
+  display: block;
+  /* animation: pop-in 0.3s; */
+  margin: auto;
+  width: 90%;
+  height: 90%;
+  overflow: hidden;
+  box-shadow: inset 0 0 0px 2px #980000;
   background-color: red;
 }
 .tile-visited {
-  background-color: lightseagreen;
+  background-color: #00c9a7;
 }
-.tile-current {
-  background-color: cyan;
+.tile-path::after {
+  content: "";
+  display: block;
+  margin: auto;
+
+  background-color: #f8e702;
+  border-radius: 100%;
+  width: 90%;
+  height: 90%;
+  /* animation: pop-in 0.5s; */
+
+  overflow: hidden;
+  box-shadow: inset 0 0 2px 2px #800000;
 }
+
 .tile-path {
-  background-color: yellow;
+  background-color: #00ffb8;
 }
-.tile-wall{
-  background-color: darkblue;
-  
+.selected {
+  background-color: #00ffb8;
+  box-shadow: inset 0 0 2px 1px #2788fb;
 }
