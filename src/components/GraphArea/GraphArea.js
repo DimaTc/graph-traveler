@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./GraphArea.css";
 import Tile, { TILE } from "./Tile";
 import { connect } from "react-redux";
-import { placeStart, updateGraph } from "../../logic/redux/graphSlice";
+import { placeNode, updateGraph } from "../../logic/redux/graphSlice";
 import { generateGraph } from "../../logic/GraphLogic";
 
 const mapStateToProps = (state) => {
@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    placeStart: (vertex) => dispatch(placeStart(vertex)),
+    
+    placeNode: (vertex) => dispatch(placeNode(vertex)),
     updateGraph: (nx, ny) => {
       updateGraph(generateGraph(nx, ny));
     },
@@ -32,7 +33,6 @@ class GraphArea extends Component {
     let graphArea = document.getElementById("graph-area2");
     let graphW = graphArea.clientWidth;
     let graphH = graphArea.clientHeight;
-    // let l = Math.sqrt((graphW * graphH) / 1200);
     let l = TILE + 2; //+2 for border
     let columns = Math.floor(graphW / l);
     let rows = Math.floor(graphH / l);
@@ -41,6 +41,8 @@ class GraphArea extends Component {
     this.setState({ graphW, graphH, columns, rows, tileW, tileH });
     this.props.onLoad(columns, rows);
     this.props.updateGraph(columns, rows);
+    this.props.placeNode({ type: "start", id: columns * Math.floor(rows / 2) + Math.floor(columns / 4) });
+    this.props.placeNode({ type: "goal", id: columns * Math.floor(rows / 2) + Math.floor((3 * columns) / 4) });
   };
 
   getTiles = () => {

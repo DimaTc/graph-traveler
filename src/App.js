@@ -5,7 +5,6 @@ import GraphArea from "./components/GraphArea/GraphArea";
 import { generateGraph } from "./logic/GraphLogic";
 import { useDispatch } from "react-redux";
 import { updateGraph } from "./logic/redux/graphSlice";
-import ControlsMenu from "./components/ControlsMenu/ControlsMenu";
 import Legend from "./components/LegendArea/Legend";
 
 const App = () => {

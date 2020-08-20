@@ -1,0 +1,7 @@
+.maze-generation {
+  display: grid;
+  width: 25%;
+
+  grid-template-columns: 25% 35% 25%;
+  column-gap: 5%;
+}

@@ -1,0 +1,9 @@
+
+.maze-solvers {
+    display: grid;
+    grid-template-columns: 26% 26% 26%;
+    column-gap: 5%;
+    width:25%;
+  
+  }
+  

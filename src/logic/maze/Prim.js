@@ -1,5 +1,5 @@
 export default function (graphData, generationData) {
-  let { start, goal, vertices, walls, edges } = graphData;
+  let { start, goal, vertices, walls } = graphData;
   let { firstRun, queue, running, extraParams, weighted } = generationData;
   let deltaWalls = [];
   let deltaHoles = [];
@@ -12,9 +12,12 @@ export default function (graphData, generationData) {
       }
     });
     generationData.firstRun = false;
-    generationData.queue = [start]; //start from the start
+    generationData.queue = [start]; //start from the start node
   } else {
     if (queue.length === 0) {
+      //if the queue is empty check there is no unreachable walls (maze looks cleaner like this)
+      //FIXME: if someone cuts off a section in the middle of the generation, it will be emptied out
+      //* Could disable option to toggle walls in the middle of the generation
       if (extraParams.leftOuts === undefined) {
         let leftOuts = walls.filter((n) => graphData.data[n].neighbors.reduce((res, n2) => res && walls.includes(n2), true));
         leftOuts.sort((a, b) => graphData.data[a].value - graphData.data[b].value);
@@ -30,9 +33,11 @@ export default function (graphData, generationData) {
         extraParams = { leftOuts };
       } else return { running: false, deltaWalls: [], deltaHoles: [], generationData };
     }
+
     let currentNode = queue.pop();
     let nodeNeighbors = graphData.data[currentNode].neighbors;
-    //filter out
+
+    //filter out nodes, keeps the maze clean
     nodeNeighbors = nodeNeighbors.filter((neighbor) => !queue.includes(neighbor) && walls.includes(neighbor));
     nodeNeighbors = nodeNeighbors.filter((neighbor) =>
       graphData.data[neighbor].neighbors.reduce((res, secondNeighbor) => {

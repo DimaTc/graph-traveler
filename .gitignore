@@ -13,12 +13,14 @@
 
 # misc
 .DS_Store
+.afdesign
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 /firebase
 npm-debug.log*
+firebase-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *_OLD*

@@ -1,19 +1,19 @@
 import React from "react";
 import "./Tile.css";
 import { useSelector, useDispatch } from "react-redux";
-import { wallATile, removeAWall, toggleWall, selectTile } from "../../logic/redux/graphSlice";
+import { toggleWall, selectTile } from "../../logic/redux/graphSlice";
 const TILE = 25;
 const getCurrentCSS = (type) => {
   let cls = "tile ";
   switch (type) {
     case "start":
       return cls + "tile-start";
-    case "end":
-      return cls + "tile-end";
+    case "goal":
+      return cls + "tile-goal";
     case "start-s":
       return cls + "tile-start selected";
-    case "end-s":
-      return cls + "tile-end selected";
+    case "goal-s":
+      return cls + "tile-goal selected";
     case "visited":
       return cls + "tile-visited";
     case "current":
@@ -22,21 +22,11 @@ const getCurrentCSS = (type) => {
       return cls + "tile-path";
     case "wall":
       return cls + "tile-wall";
-    case "current":
-      return cls + "tile-current";
     default:
       return cls;
   }
 };
-// const toggleWall = (dispatch, type, id) => {
-//   switch (type) {
-//     case "wall":
-//       dispatch(removeAWall(id));
-//       break;
-//     default:
-//       dispatch(wallATile(id));
-//   }
-// };
+
 
 const Tile = (props) => {
   const dispatch = useDispatch();
@@ -59,7 +49,7 @@ const Tile = (props) => {
         if (e.buttons === 1) dispatch(toggleWall(props.id));
       }}
       onPointerDown={(e) => {
-        if (cellState.type === "start" || cellState.type === "end") dispatch(selectTile(props.id));
+        if (cellState.type === "start" || cellState.type === "goal") dispatch(selectTile(props.id));
         else dispatch(toggleWall(props.id));
       }}
     >

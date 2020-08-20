@@ -1,10 +1,9 @@
 import React from "react";
 import "./ControlsMenu.css";
-import { Slider, Button, Typography, Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Slider, Button, Typography, FormControlLabel, Checkbox } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSpeed, pause, reset, clear, resume, toggleSkip } from "../../logic/redux/graphSlice";
 import DeleteIcon from "@material-ui/icons/Delete";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 export default (props) => {
@@ -43,7 +42,7 @@ export default (props) => {
       <div>
         <Typography gutterBottom>Solve Speed</Typography>
         <Slider
-          onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} //TODO: remove hard coded values
+          onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} 
           defaultValue={1010 - solveSpeed}
           step={50}
           min={500}

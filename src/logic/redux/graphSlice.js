@@ -1,52 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSolverNames, getMazeGenerators } from "../AlgorithmManager";
-import graphReducer from "./reducers/reducers";
+import initialState from "./initialState";
+import graphReducer from "./reducers/graphReducer";
+import controlReducer from "./reducers/controlReducers";
+import algoReducer from "./reducers/algorithmReducers";
+
 export const graphSlice = createSlice({
   name: "graph",
-  initialState: {
-    selectedTile: undefined,
-    weightCheck: false,
-    skip: false,
-    graphData: {
-      clean: true,
-      vertices: [],
-      edges: [],
-      data: {},
-      parentDict: {},
-      visited: [],
-      queue: [],
-      drawPath: false,
-      goal: -1,
-      start: -1,
-      running: false,
-      walls: [],
-      extraParams: {},
-      //tmp
-      current: undefined,
-    },
-    generationData: {
-      weighted: false,
-      running: false,
-      queue: [],
-      firstRun: true,
-      extraParams: {},
-    },
-    solveSpeed: 60,
-    start: 128,
-    end: -1,
-
-    paused: false,
-    intervalId: {
-      solve: undefined,
-      generate: undefined,
-    },
-    algorithms: {
-      solve: getSolverNames()[0],
-      generate: getMazeGenerators()[0],
-      solveArr: getSolverNames(),
-    },
-  },
-  reducers: graphReducer,
+  initialState: initialState,
+  reducers: { ...graphReducer, ...controlReducer, ...algoReducer },
 });
 
 export const {
@@ -57,11 +18,8 @@ export const {
   pause,
   resume,
   clear,
-  wallATile,
   generateMaze,
-  placeStart,
   updateGraph,
-  removeAWall,
   toggleSkip,
   setWeightCheck,
   updateSpeed,
@@ -69,6 +27,7 @@ export const {
   setAlgorithm,
   toggleWall,
   selectTile,
+  placeNode,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

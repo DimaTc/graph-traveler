@@ -1,3 +1,9 @@
+/*
+buggy implementation of the recursive generator, didn't take to account the walls and some more parameters
+The code is NOT in used, kept it for future reference if needed
+
+!DON'T USE OR JUDGE BASED ON THIS CODE, THIS IS AN EARLY PROTOTYPING
+*/
 export default function (graphData, generationData) {
   let { start, goal, vertices, walls, data } = graphData;
   let { queue, running, extraParams } = generationData;
@@ -32,11 +38,8 @@ export default function (graphData, generationData) {
     r_start = firstNode + (vertical ? Math.floor(r_width / 2) : Math.floor(r_height / 2) * totalWidth);
     r_end = r_start + (vertical ? r_height * totalWidth : r_width);
     let pass = r_start + Math.round(Math.random() * (r_end - r_start));
-    console.log(r_start, r_end,pass)
     if (vertical) pass = Math.floor(pass / totalWidth) * totalWidth; //transform it to y value
     if (pass === (r_end - r_start) / 2 + r_start) pass -= 1;
-    console.log(r_start, r_end,pass)
-    console.log("--------------")
     for (let n = r_start; n < r_end; n++)
       if (vertical) {
         // if (n !== pass)

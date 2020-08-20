@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMazeGenerators } from "../../logic/AlgorithmManager";
-import { Button, Select, MenuItem, FormControl, InputLabel, Box, Grid, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Button, Select, MenuItem, FormControl, InputLabel, Checkbox, FormControlLabel } from "@material-ui/core";
 import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset, setWeightCheck } from "../../logic/redux/graphSlice";
 import BuildIcon from "@material-ui/icons/Build";
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
+import "./GeneratorControl.css";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (

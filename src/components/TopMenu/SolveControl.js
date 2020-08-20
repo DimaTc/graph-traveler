@@ -1,10 +1,11 @@
 import React from "react";
-import { FormControl, InputLabel, Select, Button, MenuItem, FormControlLabel, Checkbox } from "@material-ui/core";
+import { FormControl, InputLabel, Select, Button, MenuItem } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { solve, reset, step, setAlgorithm, setIntervalId } from "../../logic/redux/graphSlice";
 import { getSolverNames } from "../../logic/AlgorithmManager";
 import SendIcon from "@material-ui/icons/Send";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import "./SolveControl.css";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (

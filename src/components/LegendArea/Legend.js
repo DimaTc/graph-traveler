@@ -12,16 +12,12 @@ export default function () {
         </li>
         <li>
           <p>Goal</p>
-          <div style={{ width: TILE, height: TILE }} className="tile-end"></div>
+          <div style={{ width: TILE, height: TILE }} className="tile-goal"></div>
         </li>
         <li>
           <p>Wall</p>
           <div style={{ width: TILE, height: TILE }} className="tile-wall"></div>
         </li>
-        {/* <li> */}
-        {/* <p>Path</p> */}
-        {/* <div style={{ width: TILE, height: TILE }} className="tile-path"></div> */}
-        {/* </li> */}
       </ul>
     </div>
   );

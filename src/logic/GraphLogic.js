@@ -1,4 +1,6 @@
+export const MAX_COST = 100;
 function generateGraph(nx, ny) {
+  //generate the graph data structure
   let vertices = [];
   let edges = {};
   for (let r = 0; r < ny; r++)
@@ -20,6 +22,7 @@ function generateGraph(nx, ny) {
 }
 
 const removeEdge = (e, node) => {
+  //remove an edge and update the relevant edges
   let edges = { ...e };
   let neighbors = edges[node];
   neighbors.forEach((n) => {
@@ -30,6 +33,7 @@ const removeEdge = (e, node) => {
 };
 
 const restoreEdge = (e, neighbors, walls, node) => {
+  //restore an edge and update the relevant edges
   let edges = { ...e };
   neighbors.forEach((n) => {
     if (!walls.includes(n)) edges[n] = [...edges[n], node];
