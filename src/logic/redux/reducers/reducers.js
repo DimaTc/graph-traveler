@@ -24,40 +24,43 @@
 import { solvers, generators } from "../../AlgorithmManager";
 import { removeEdge, restoreEdge } from "../../GraphLogic";
 // import { combineReducers } from "redux";
-
+const MAX_COST = 100;
 export default {
   step: (state) => {
     if (state.paused) return;
-    if (state.graphData.queue.length === 0) state.graphData.running = false;
-    //draw path at the end
-    if (state.graphData.drawPath) {
-      if (state.graphData.queue.length > 0) {
-        let pathTile = state.graphData.queue.pop();
-        if (state.graphData.data[pathTile].type === "visited") state.graphData.data[pathTile].type = "path";
+    do {
+      if (state.graphData.queue.length === 0) state.graphData.running = false;
+      //draw path at the end
+      if (state.graphData.drawPath) {
+        if (state.graphData.queue.length > 0) {
+          let pathTile = state.graphData.queue.pop();
+          if (state.graphData.data[pathTile].type === "visited") state.graphData.data[pathTile].type = "path";
+        } else return;
+        if (state.skip) continue;
+        return;
       }
-      return;
-    }
-    let f = solvers[state.algorithms.solve];
-    let res = f(state.graphData);
+      let f = solvers[state.algorithms.solve];
+      let res = f(state.graphData);
 
-    if (!res.running) res = { ...res, running: true, drawPath: true };
-    state.graphData = { ...state.graphData, ...res };
-    // when search is finished//////////
-    if (res.drawPath) {
-      state.graphData.queue = []; //empty it and it will be repurposed for the path
-      if (state.graphData.goal !== -1 && state.graphData.parentDict[state.graphData.goal] !== undefined) {
-        let current = state.graphData.goal;
-        while (state.graphData.parentDict[current] !== undefined) {
-          state.graphData.queue = [...state.graphData.queue, current];
-          current = state.graphData.parentDict[current];
+      if (!res.running) res = { ...res, running: true, drawPath: true };
+      state.graphData = { ...state.graphData, ...res };
+      // when search is finished//////////
+      if (res.drawPath) {
+        state.graphData.queue = []; //empty it and it will be repurposed for the path
+        if (state.graphData.goal !== -1 && state.graphData.parentDict[state.graphData.goal] !== undefined) {
+          let current = state.graphData.goal;
+          while (state.graphData.parentDict[current] !== undefined) {
+            state.graphData.queue = [...state.graphData.queue, current];
+            current = state.graphData.parentDict[current];
+          }
         }
       }
-    }
-    /////////////////////
-    //change each cell type to visited if visited (duplication will not affect performance)
-    state.graphData.visited.forEach((v) => {
-      if (state.graphData.data[v].type === "") state.graphData.data[v].type = "visited";
-    });
+      /////////////////////
+      //change each cell type to visited if visited (duplication will not affect performance)
+      state.graphData.visited.forEach((v) => {
+        if (state.graphData.data[v].type === "") state.graphData.data[v].type = "visited";
+      });
+    } while (state.skip && (state.graphData.running || state.graphData.drawPath));
   },
 
   placeStart: (state, action) => {
@@ -81,9 +84,15 @@ export default {
   },
 
   solve: (state) => {
-    state.graphData.clean = false;
+    // state.graphData.clean = false;
     state.generationData.running = false;
-    state.graphData.running = true;
+    // state.graphData.running = true;
+    state.graphData = {
+      ...state.graphData,
+      clean: false,
+      running: true,
+      extraParams: {},
+    };
   },
   generate: (state, action) => {
     state.generationData.weighted = action.payload;
@@ -99,12 +108,14 @@ export default {
   },
   setIntervalId: (state, action) => {
     let { type, value } = action.payload;
+    console.log("Set interval - ", type, value);
     state.intervalId[type] = value;
   },
   pause: (state) => {
     state.paused = true;
   },
   reset: (state) => {
+    console.log("reset");
     if (state.selectedTile !== undefined) {
       state.graphData.data[state.selectedTile].type = state.graphData.data[state.selectedTile].type.replace("-s", "");
       state.selectedTile = undefined;
@@ -119,7 +130,12 @@ export default {
           state.graphData.data[v] = { ...state.graphData.data[v], type: "" };
       });
     }
-
+    clearInterval(state.intervalId.solve);
+    clearInterval(state.intervalId.generate);
+    state.intervalId = {
+      solve: undefined,
+      generate: undefined,
+    };
     state.graphData = {
       ...state.graphData,
       clean: true,
@@ -132,7 +148,6 @@ export default {
     state.generationData = {
       ...state.generationData,
       running: false,
-      intervalId: undefined,
       queue: [],
       firstRun: true,
       extraParams: {},
@@ -142,7 +157,9 @@ export default {
   setWeightCheck: (state, action) => {
     state.weightCheck = action.payload;
   },
-
+  toggleSkip: (state) => {
+    state.skip = !state.skip;
+  },
   resume: (state) => {
     state.paused = false;
   },
@@ -207,16 +224,21 @@ export default {
       state.graphData.data[id].type = "wall";
     }
 
+    //Change start/end node
     if (state.selectedTile !== undefined) {
+      let type, oldId;
+
       if (state.selectedTile === state.graphData.start) {
-        state.graphData.data[state.graphData.start].type = "";
-        state.graphData.data[id].type = "start";
+        oldId = state.graphData.start;
         state.graphData.start = id;
+        type = "start";
       } else {
-        state.graphData.data[state.graphData.goal].type = "";
-        state.graphData.data[id].type = "end";
+        oldId = state.graphData.goal;
         state.graphData.goal = id;
+        type = "end";
       }
+      state.graphData.data[id] = { ...state.graphData.data[id], type, value: 0 };
+      state.graphData.data[oldId] = { ...state.graphData.data[oldId], type: "", value: Math.floor(MAX_COST * Math.random()) };
       state.selectedTile = undefined;
     }
   },
@@ -236,25 +258,34 @@ export default {
 
   generateMaze: (state, action) => {
     if (state.paused) return;
+    do {
+      if (state.generationData.weighted && state.generationData.firstRun)
+        state.graphData.vertices.forEach((v) => {
+          if (v !== state.graphData.start && v !== state.graphData.goal) {
+            state.graphData.data[v].value = Math.floor(Math.random() * MAX_COST); //better than just selecting random queue
+          } else {
+            state.graphData.data[v].value = 0;
+          }
+        });
+      let f = generators[state.algorithms.generate];
+      let { deltaWalls, deltaHoles, running, generationData, extraParams } = f(state.graphData, state.generationData);
+      state.graphData.walls = [...state.graphData.walls.filter((v) => !deltaHoles.includes(v)), ...deltaWalls];
+      deltaWalls.forEach((w) => {
+        if (w === state.graphData.start || w === state.graphData.goal) return;
+        state.graphData.data[w].type = "wall";
+        state.graphData.edges = { ...removeEdge(state.graphData.edges, w) };
+      });
 
-    let f = generators[state.algorithms.generate];
-    let { deltaWalls, deltaHoles, running, generationData, extraParams } = f(state.graphData, state.generationData);
-    state.graphData.walls = [...state.graphData.walls.filter((v) => !deltaHoles.includes(v)), ...deltaWalls];
-    deltaWalls.forEach((w) => {
-      if (w === state.graphData.start || w === state.graphData.goal) return;
-      state.graphData.data[w].type = "wall";
-      state.graphData.edges = { ...removeEdge(state.graphData.edges, w) };
-    });
+      deltaHoles.forEach((n) => {
+        if (n === state.graphData.start || n === state.graphData.goal) return;
 
-    deltaHoles.forEach((n) => {
-      if (n === state.graphData.start || n === state.graphData.goal) return;
-
-      state.graphData.data[n].type = "";
-      state.graphData.edges = {
-        ...restoreEdge(state.graphData.edges, state.graphData.data[n].neighbors, state.graphData.walls, n),
-      };
-    });
-    state.generationData = { ...generationData, running, extraParams };
+        state.graphData.data[n].type = "";
+        state.graphData.edges = {
+          ...restoreEdge(state.graphData.edges, state.graphData.data[n].neighbors, state.graphData.walls, n),
+        };
+      });
+      state.generationData = { ...generationData, running, extraParams };
+    } while (state.skip && state.generationData.running);
   },
 
   updateGraph: (state, action) => {

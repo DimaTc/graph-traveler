@@ -3,6 +3,7 @@ import DFS from "./solvers/DFS";
 import Random from "./maze/Random";
 import DFSGenerate from "./maze/DFS";
 import Prim from "./maze/Prim";
+import Dijkstra from "./solvers/Dijkstra";
 // import Recursive from "./maze/Recursive";
 
 const generators = { "Prim's": Prim, Random, DFS: DFSGenerate };
@@ -10,6 +11,7 @@ const generators = { "Prim's": Prim, Random, DFS: DFSGenerate };
 const solvers = {
   BFS,
   DFS,
+  Dijkstra,
 };
 
 function getMazeGenerators() {

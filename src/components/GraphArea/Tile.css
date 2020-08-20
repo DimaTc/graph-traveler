@@ -88,6 +88,9 @@
 .tile-path {
   background-color: #00ffb8;
 }
+.tile-current{
+  background-color: #a011ff;
+}
 .selected {
   background-color: #00ffb8;
   box-shadow: inset 0 0 2px 1px #2788fb;

@@ -1,14 +1,14 @@
 export default function (graphData, generationData) {
-  let { start, goal, vertices, walls } = graphData;
-  let { firstRun, queue, running, extraParams } = generationData;
+  let { start, goal, vertices, walls, edges } = graphData;
+  let { firstRun, queue, running, extraParams, weighted } = generationData;
   let deltaWalls = [];
   let deltaHoles = [];
   if (firstRun) {
     //Fill all the maze with walls
     vertices.forEach((v) => {
       if (v !== start && v !== goal) {
+        if (!weighted) graphData.data[v].value = Math.floor(Math.random() * 100); //better than just selecting random queue
         deltaWalls.push(v);
-        graphData.data[v].value = Math.floor(Math.random() * 100); //better than just selecting random queue
       }
     });
     generationData.firstRun = false;

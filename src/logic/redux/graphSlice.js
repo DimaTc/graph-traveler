@@ -6,6 +6,7 @@ export const graphSlice = createSlice({
   initialState: {
     selectedTile: undefined,
     weightCheck: false,
+    skip: false,
     graphData: {
       clean: true,
       vertices: [],
@@ -19,11 +20,13 @@ export const graphSlice = createSlice({
       start: -1,
       running: false,
       walls: [],
+      extraParams: {},
+      //tmp
+      current: undefined,
     },
     generationData: {
       weighted: false,
       running: false,
-      intervalId: undefined,
       queue: [],
       firstRun: true,
       extraParams: {},
@@ -59,6 +62,7 @@ export const {
   placeStart,
   updateGraph,
   removeAWall,
+  toggleSkip,
   setWeightCheck,
   updateSpeed,
   setIntervalId,

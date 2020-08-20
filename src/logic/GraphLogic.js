@@ -31,7 +31,6 @@ const removeEdge = (e, node) => {
 
 const restoreEdge = (e, neighbors, walls, node) => {
   let edges = { ...e };
-
   neighbors.forEach((n) => {
     if (!walls.includes(n)) edges[n] = [...edges[n], node];
   });

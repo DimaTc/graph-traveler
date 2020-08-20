@@ -26,6 +26,7 @@ const generateHelper = (dispatch, runGenerator, oldTimeout) => {
 export default (props) => {
   const currentGenerator = useSelector((state) => state.graph.algorithms.generate);
   const isWeighted = useSelector((state) => state.graph.weightCheck);
+  const runSolver = useSelector((state) => state.graph.graphData.running);
   const runGenerator = useSelector((state) => state.graph.generationData.running);
   const oldTimeout = useSelector(
     (state) => state.graph.intervalId.generate,
@@ -40,6 +41,7 @@ export default (props) => {
         <InputLabel>Generators</InputLabel>
         <Select
           name="generators"
+          disabled={runSolver || runGenerator}
           id="generators"
           value={currentGenerator}
           label="Generators"
@@ -51,6 +53,7 @@ export default (props) => {
         </Select>
       </FormControl>
       <Button
+        disabled={runSolver || runGenerator}
         variant="contained"
         color="primary"
         startIcon={<BuildIcon />}

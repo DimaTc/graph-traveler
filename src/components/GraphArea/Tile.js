@@ -22,6 +22,8 @@ const getCurrentCSS = (type) => {
       return cls + "tile-path";
     case "wall":
       return cls + "tile-wall";
+    case "current":
+      return cls + "tile-current";
     default:
       return cls;
   }

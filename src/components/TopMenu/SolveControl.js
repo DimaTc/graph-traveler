@@ -3,8 +3,8 @@ import { FormControl, InputLabel, Select, Button, MenuItem, FormControlLabel, Ch
 import { useSelector, useDispatch } from "react-redux";
 import { solve, reset, step, setAlgorithm, setIntervalId } from "../../logic/redux/graphSlice";
 import { getSolverNames } from "../../logic/AlgorithmManager";
-import SendIcon from '@material-ui/icons/Send';
-import RefreshIcon from "@material-ui/icons/Refresh"
+import SendIcon from "@material-ui/icons/Send";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
@@ -27,6 +27,7 @@ const SolveControl = (props) => {
   const selectedSolver = useSelector((state) => state.graph.algorithms.solve);
   const runSpeed = useSelector((state) => state.graph.solveSpeed);
   const runSolver = useSelector((state) => state.graph.graphData.running);
+  const runGenerator = useSelector((state) => state.graph.generationData.running);
   const oldTimeout = useSelector(
     (state) => state.graph.intervalId.solve,
     () => true
@@ -40,6 +41,7 @@ const SolveControl = (props) => {
       <FormControl variant="outlined">
         <InputLabel>Solvers</InputLabel>
         <Select
+          disabled={runSolver || runGenerator}
           name="solvers"
           id="solvers"
           value={selectedSolver}
@@ -53,9 +55,10 @@ const SolveControl = (props) => {
       </FormControl>
       <Button
         variant="contained"
+        disabled={runSolver || runGenerator}
         color="primary"
         // startIcon={<PlayArrowIcon/>}
-        startIcon={<SendIcon/>}
+        startIcon={<SendIcon />}
         onClick={(e) => {
           dispatch(reset());
           dispatch(solve());

@@ -3,9 +3,12 @@
   display: grid;
   align-items: center;
   grid-template-columns: 17% 17% 30% 18%;
-  width:35%;
+  width: 35%;
   column-gap: 5%;
 }
 .controls-menu > div {
   width: 100%;
+}
+
+.skip-control {
 }
