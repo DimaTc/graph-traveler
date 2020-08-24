@@ -21,7 +21,7 @@ Can find path from one point to any other point. Start/End position can be chang
 Dijkstra takes the weights into account (if there is no weights it will act like BFS )
 
 
-![Generation](https://i.imgur.com/oey5yNV.png)
+![Generation](https://i.giphy.com/media/dXEj4DZaGirjPIQHg9/source.gif)
 
 ### Flexible controls
 ***
