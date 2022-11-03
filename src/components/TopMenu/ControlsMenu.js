@@ -1,11 +1,13 @@
 import React from "react";
 import "./ControlsMenu.css";
+import "../../shared/global.css"
 import { Slider, Button, Typography, FormControlLabel, Checkbox } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSpeed, pause, reset, clear, resume, toggleSkip } from "../../logic/redux/graphSlice";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import {GlobalStyles} from "../../shared/globalStyles";
 export default (props) => {
   const dispatch = useDispatch();
   const paused = useSelector((state) => state.graph.paused);
@@ -15,8 +17,9 @@ export default (props) => {
   let icon = paused ? <PlayArrowIcon /> : <PauseIcon />;
 
   return (
-    <div className="sub-section controls-menu">
+    <div className="sub-section controls-menu curved-border">
       <Button
+        style={GlobalStyles.border}
         variant="contained"
         color="primary"
         startIcon={icon}
@@ -29,6 +32,7 @@ export default (props) => {
       </Button>
 
       <Button
+        style={GlobalStyles.border}
         variant="contained"
         startIcon={<DeleteIcon />}
         color="secondary"
@@ -39,10 +43,10 @@ export default (props) => {
       >
         Clear
       </Button>
-      <div>
+      <div style={{textAlign: "center"}}>
         <Typography gutterBottom>Solve Speed</Typography>
         <Slider
-          onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))} 
+          onChangeCommitted={(e, v) => dispatch(updateSpeed(1010 - v))}
           defaultValue={1010 - solveSpeed}
           step={50}
           min={500}
@@ -56,7 +60,7 @@ export default (props) => {
       <FormControlLabel
         className="skip-control"
         control={<Checkbox value="skip" checked={skip} onChange={() => dispatch(toggleSkip())} />}
-        label="skip animation"
+        label="Cancel Animation"
       />
     </div>
   );

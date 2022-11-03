@@ -1,9 +1,10 @@
 import BFS from "./solvers/BFS";
 import DFS from "./solvers/DFS";
-import Random from "./maze/Random";
+import Random from "./maze/random";
 import DFSGenerate from "./maze/DFS";
 import Prim from "./maze/Prim";
 import Dijkstra from "./solvers/Dijkstra";
+import Astar from "./solvers/Astar";
 // import Recursive from "./maze/Recursive";
 
 const generators = {
@@ -17,7 +18,7 @@ const solvers = {
   BFS,
   DFS,
   Dijkstra,
-  //TODO: A*
+  "A*": Astar,
 };
 
 function getMazeGenerators() {

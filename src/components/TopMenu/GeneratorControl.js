@@ -5,6 +5,8 @@ import { Button, Select, MenuItem, FormControl, InputLabel, Checkbox, FormContro
 import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset, setWeightCheck } from "../../logic/redux/graphSlice";
 import BuildIcon from "@material-ui/icons/Build";
 import "./GeneratorControl.css";
+import "./../../shared/global.css"
+import {GlobalStyles} from "../../shared/globalStyles";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
@@ -35,8 +37,9 @@ export default (props) => {
   const dispatch = useDispatch();
   let intervalId = generateHelper(dispatch, runGenerator, oldTimeout);
   dispatch(setIntervalId({ type: "generate", value: intervalId }));
+
   return (
-    <div className="sub-section maze-generation">
+    <div className="sub-section maze-generation curved-border">
       <FormControl variant="outlined">
         <InputLabel>Generators</InputLabel>
         <Select
@@ -53,6 +56,7 @@ export default (props) => {
         </Select>
       </FormControl>
       <Button
+        style={GlobalStyles.border}
         disabled={runSolver || runGenerator}
         variant="contained"
         color="primary"
@@ -76,7 +80,7 @@ export default (props) => {
             onChange={(e, state) => dispatch(setWeightCheck(state))}
           />
         }
-        label="weighted"
+        label="Add Weights"
       />
     </div>
   );

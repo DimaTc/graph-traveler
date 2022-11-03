@@ -70,8 +70,16 @@ export default {
   placeNode: (state, action) => {
     let { type, id } = action.payload;
     let oldVal = state.graphData.data[id];
+    if (state.graphData[type] !== -1) {
+      let oldId = state.graphData[type];
+      state.graphData.data[oldId] = {...state.graphData.data[oldId], type: ""};
+    }
     state.graphData[type] = id;
     state.graphData.data[id] = { ...oldVal, type };
+  },
+
+  setWeightCheck: (state, action) => {
+    state.weightCheck = action.payload;
   },
 
   updateGraph: (state, action) => {

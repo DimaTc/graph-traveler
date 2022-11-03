@@ -18,7 +18,6 @@ export default function (graphState) {
       extraParams[node] = baseValue + addedValue;
     }
   });
-
   //add to queue if not in the queue
   nodeNeighbors.forEach((node) => {
     if (visited.includes(node)) return;

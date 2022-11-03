@@ -1,5 +1,5 @@
 import React from "react";
-import TopMenu from "./components/TopMenu/TopMenu";
+import TopMenu from "./containers/TopMenu";
 import "./App.css";
 import GraphArea from "./components/GraphArea/GraphArea";
 import { generateGraph } from "./logic/GraphLogic";

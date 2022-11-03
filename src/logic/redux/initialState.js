@@ -5,6 +5,7 @@ export default {
   weightCheck: false,
   skip: false,
   graphData: {
+    aStarMetaData: [],
     clean: true,
     vertices: [],
     edges: [],

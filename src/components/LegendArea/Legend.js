@@ -1,21 +1,22 @@
 import React from "react";
 import "./Legend.css";
+import "../../shared/global.css"
 import { TILE } from "../GraphArea/Tile";
 
 export default function () {
   return (
     <div className="legend-wrapper">
-      <ul className="sub-section legend">
+      <ul className="sub-section legend curved-border">
         <li>
-          <p>Start</p>
+          <strong>Start</strong>
           <div style={{ width: TILE, height: TILE }} className="tile-start"></div>
         </li>
         <li>
-          <p>Goal</p>
+          <strong>Goal</strong>
           <div style={{ width: TILE, height: TILE }} className="tile-goal"></div>
         </li>
         <li>
-          <p>Wall</p>
+          <strong>Wall</strong>
           <div style={{ width: TILE, height: TILE }} className="tile-wall"></div>
         </li>
       </ul>

@@ -6,6 +6,8 @@ import { getSolverNames } from "../../logic/AlgorithmManager";
 import SendIcon from "@material-ui/icons/Send";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import "./SolveControl.css";
+import {GlobalStyles} from "../../shared/globalStyles";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
@@ -38,7 +40,7 @@ const SolveControl = (props) => {
   dispatch(setIntervalId({ type: "solve", value: intervalId }));
 
   return (
-    <div className="sub-section maze-solvers">
+    <div className="sub-section maze-solvers curved-border">
       <FormControl variant="outlined">
         <InputLabel>Solvers</InputLabel>
         <Select
@@ -55,11 +57,12 @@ const SolveControl = (props) => {
         </Select>
       </FormControl>
       <Button
+        style={GlobalStyles.border}
         variant="contained"
         disabled={runSolver || runGenerator}
         color="primary"
-        // startIcon={<PlayArrowIcon/>}
-        startIcon={<SendIcon />}
+        startIcon={<PlayArrowIcon/>}
+        // startIcon={<SendIcon />}
         onClick={(e) => {
           dispatch(reset());
           dispatch(solve());
@@ -68,6 +71,7 @@ const SolveControl = (props) => {
         Solve
       </Button>
       <Button
+        style={GlobalStyles.border}
         variant="contained"
         color="secondary"
         startIcon={<RefreshIcon />}
