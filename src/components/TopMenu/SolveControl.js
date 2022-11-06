@@ -62,7 +62,6 @@ const SolveControl = (props) => {
         disabled={runSolver || runGenerator}
         color="primary"
         startIcon={<PlayArrowIcon/>}
-        // startIcon={<SendIcon />}
         onClick={(e) => {
           dispatch(reset());
           dispatch(solve());

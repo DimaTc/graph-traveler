@@ -2,7 +2,7 @@
   background-color: white;
   display: grid;
   align-items: center;
-  grid-template-columns: 17% 17% 25% 18%;
+  grid-template-columns: 12% 12% 28% 22%;
   width: 32%;
   column-gap: 5%;
 }
@@ -13,3 +13,10 @@
 .skip-control {
   text-align: center;
 }
+
+@media (max-width: 850px) {
+  .controls-menu {
+    width: 100%;
+  }
+}
+

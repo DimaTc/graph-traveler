@@ -2,7 +2,7 @@ import React, {Component, useEffect, useState} from "react";
 import "./GraphArea.css";
 import Tile, { TILE } from "./Tile";
 import {connect, useDispatch, useSelector} from "react-redux";
-import {placeNode, reset, updateGraph} from "../../logic/redux/graphSlice";
+import {generateMaze, placeNode, reset, updateGraph} from "../../logic/redux/graphSlice";
 import { generateGraph } from "../../logic/GraphLogic";
 
 
@@ -23,6 +23,7 @@ const GraphArea = (props) => {
   const dispatch = useDispatch();
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight - HEIGHT_REDUCTION });
   const [state, setState] = useState({rows: 0, columns: 0});
+  let weightCheck = useSelector((state) => state.graph.weightCheck);
   let weighted = useSelector(
       (state) => state.graph.generationData.weighted,
       () => true
@@ -30,19 +31,19 @@ const GraphArea = (props) => {
 
   useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
+      dispatch(reset());
       setDimensions({
         height: window.innerHeight - HEIGHT_REDUCTION,
         width: window.innerWidth
       })
     }, 1000)
     updateSizes();
-    console.log('sdas')
     window.addEventListener('resize', debouncedHandleResize)
     // clean up listener
     return _ => {
       window.removeEventListener('resize', debouncedHandleResize)
     }
-  }, [dimensions, weighted]);
+  }, [dimensions, weighted, weightCheck]);
 
 
   const updateSizes = () => {
@@ -56,7 +57,6 @@ const GraphArea = (props) => {
     let tileH = graphH / rows - 2;
     setState({ graphW, graphH, columns, rows, tileW, tileH });
     props.onLoad(columns, rows);
-    // props.updateGraph(columns, rows);
     props.placeNode({ type: "start", id: columns * Math.floor(rows / 2) + Math.floor(columns / 4) });
     props.placeNode({ type: "goal", id: columns * Math.floor(rows / 2) + Math.floor((3 * columns) / 4) });
   };
@@ -92,7 +92,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
     placeNode: (vertex) => dispatch(placeNode(vertex)),
     updateGraph: (nx, ny) => {
       updateGraph(generateGraph(nx, ny));

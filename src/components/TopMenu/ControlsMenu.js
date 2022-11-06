@@ -19,29 +19,28 @@ export default (props) => {
   return (
     <div className="sub-section controls-menu curved-border">
       <Button
-        style={GlobalStyles.border}
+        style={GlobalStyles.roundedBorder}
+        className="circle-button"
         variant="contained"
         color="primary"
-        startIcon={icon}
         onClick={(e) => {
           if (paused) dispatch(resume());
           else dispatch(pause());
         }}
       >
-        {paused ? "Resume" : "Pause"}
+          {paused ? <PlayArrowIcon /> : <PauseIcon />}
       </Button>
-
       <Button
-        style={GlobalStyles.border}
+        style={GlobalStyles.roundedBorder}
+        className="circle-button"
         variant="contained"
-        startIcon={<DeleteIcon />}
         color="secondary"
         onClick={(e) => {
           dispatch(reset());
           dispatch(clear());
         }}
       >
-        Clear
+          <DeleteIcon />
       </Button>
       <div style={{textAlign: "center"}}>
         <Typography gutterBottom>Solve Speed</Typography>
@@ -57,11 +56,15 @@ export default (props) => {
           marks
         />
       </div>
-      <FormControlLabel
-        className="skip-control"
-        control={<Checkbox value="skip" checked={skip} onChange={() => dispatch(toggleSkip())} />}
-        label="Cancel Animation"
-      />
+      <div style={{textAlign: "center"}}>
+        <Typography gutterBottom>Animation</Typography>
+          <FormControlLabel
+              className="skip-control"
+              style={{margin: "0 auto"}}
+              control={<Checkbox value="skip" checked={skip} onChange={() => dispatch(toggleSkip())} />}
+          />
+      </div>
+
     </div>
   );
 };

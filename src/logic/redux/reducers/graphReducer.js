@@ -1,4 +1,5 @@
 import { restoreEdge, removeEdge, MAX_COST } from "../../GraphLogic";
+import {current} from "@reduxjs/toolkit";
 
 /*
     All graph manipulation related reducers
@@ -83,7 +84,7 @@ export default {
   },
 
   updateGraph: (state, action) => {
-    let { vertices, edges } = action.payload;
+      let { vertices, edges } = action.payload;
     state.graphData.vertices = vertices;
 
     //init vertices

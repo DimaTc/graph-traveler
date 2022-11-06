@@ -11,6 +11,7 @@ const generators = {
   "Prim's": Prim,
   Random,
   DFS: DFSGenerate,
+  // Recursive: Recursive,
   //TODO: Recursive
 };
 

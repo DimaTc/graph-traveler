@@ -18,6 +18,7 @@ export const {
   pause,
   resume,
   clear,
+  displayWeights,
   generateMaze,
   updateGraph,
   toggleSkip,
