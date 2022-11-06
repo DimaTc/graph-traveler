@@ -7,6 +7,7 @@ export function setMetaDataForAStar(state) {
   let rowSize = (state.graphData.vertices.length) / colSize;
   let goal = state.graphData.goal;
   let xPosOfGoal = goal % colSize;
+  state.graphData.aStarMetaData = [];
   for(let i = 0; i < rowSize * colSize; i++) {
       let currXPosOfI = i % colSize;
       let xRange = Math.abs(currXPosOfI - xPosOfGoal);
