@@ -46,6 +46,6 @@ If any code is updated, you should ```yarn build``` or ```npm build``` first.
 
 
 ## TODOs
-- Add A* finding algorithm
 - Add recursive maze generator
+- Adding Ctrl Z functionality
   

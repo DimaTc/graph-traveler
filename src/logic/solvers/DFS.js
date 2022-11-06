@@ -1,3 +1,4 @@
+
 export default function DFS(graphState) {
   let { edges, queue, visited, parentDict, running, goal } = graphState;
   if (queue.length === 0) return { ...graphState, running: false }; // if no path

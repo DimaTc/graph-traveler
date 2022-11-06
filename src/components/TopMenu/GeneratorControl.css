@@ -5,3 +5,9 @@
   grid-template-columns: 25% 35% 25%;
   column-gap: 5%;
 }
+
+@media (max-width: 850px) {
+    .maze-generation {
+        width: 95%;
+    }
+}

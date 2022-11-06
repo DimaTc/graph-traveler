@@ -2,6 +2,8 @@
     All control related reducers 
 */
 
+import {setMetaDataForAStar} from "./algorithmReducers";
+
 export default {
   pause: (state) => {
     state.paused = true;
@@ -61,6 +63,9 @@ export default {
 
   solve: (state) => {
     // state.graphData.clean = false;
+    if(state.algorithms.solve === "A*"){
+      setMetaDataForAStar(state);
+    }
     state.generationData.running = false;
     // state.graphData.running = true;
     state.graphData = {

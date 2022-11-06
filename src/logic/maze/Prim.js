@@ -50,11 +50,9 @@ export default function (graphData, generationData) {
         return res;
       }, true)
     );
-    //
     //add to queue
     generationData.queue = [...queue.filter((n) => n !== currentNode), ...nodeNeighbors];
     generationData.queue.sort((a, b) => graphData.data[a].value - graphData.data[b].value);
-
     //make a hole
     deltaHoles = [...deltaHoles, currentNode];
   }

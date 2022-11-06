@@ -6,4 +6,9 @@
     width:25%;
   
   }
-  
+
+@media (max-width: 850px) {
+    .maze-solvers {
+        width: 95%;
+    }
+}

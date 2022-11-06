@@ -2,9 +2,19 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMazeGenerators } from "../../logic/AlgorithmManager";
 import { Button, Select, MenuItem, FormControl, InputLabel, Checkbox, FormControlLabel } from "@material-ui/core";
-import { setAlgorithm, generateMaze, clear, generate, setIntervalId, reset, setWeightCheck } from "../../logic/redux/graphSlice";
-import BuildIcon from "@material-ui/icons/Build";
+import {
+    setAlgorithm,
+    generateMaze,
+    clear,
+    generate,
+    setIntervalId,
+    reset,
+    setWeightCheck, displayWeights,
+} from "../../logic/redux/graphSlice";
+import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
 import "./GeneratorControl.css";
+import "./../../shared/global.css"
+import {GlobalStyles} from "../../shared/globalStyles";
 
 const getOptionsFromArray = (arr) => {
   return arr.map((v) => (
@@ -35,8 +45,9 @@ export default (props) => {
   const dispatch = useDispatch();
   let intervalId = generateHelper(dispatch, runGenerator, oldTimeout);
   dispatch(setIntervalId({ type: "generate", value: intervalId }));
+
   return (
-    <div className="sub-section maze-generation">
+    <div className="sub-section maze-generation curved-border">
       <FormControl variant="outlined">
         <InputLabel>Generators</InputLabel>
         <Select
@@ -53,10 +64,11 @@ export default (props) => {
         </Select>
       </FormControl>
       <Button
+        style={GlobalStyles.border}
         disabled={runSolver || runGenerator}
         variant="contained"
         color="primary"
-        startIcon={<BuildIcon />}
+        startIcon={<OfflineBoltIcon />}
         onClick={(e) => {
           dispatch(reset());
           dispatch(clear());
@@ -73,10 +85,13 @@ export default (props) => {
             value="weight"
             checked={isWeighted}
             disabled={runGenerator}
-            onChange={(e, state) => dispatch(setWeightCheck(state))}
+            onChange={(e, state) => {
+                dispatch(setWeightCheck(state));
+                // dispatch(displayWeights(state));
+            }}
           />
         }
-        label="weighted"
+        label="Add Weights"
       />
     </div>
   );

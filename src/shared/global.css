@@ -1,0 +1,8 @@
+.curved-border {
+    border-radius:1.5em;
+}
+.circle-button{
+    border-radius:50%;
+    height: 50px;
+    width: 50px;
+}

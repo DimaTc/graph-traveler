@@ -1,14 +1,32 @@
 import { restoreEdge, removeEdge, MAX_COST } from "../../GraphLogic";
+import {current } from '@reduxjs/toolkit'
 import { solvers, generators } from "../../AlgorithmManager";
+
+export function setMetaDataForAStar(state) {
+  let colSize = state.graphData.data[0].neighbors[1];
+  let rowSize = (state.graphData.vertices.length) / colSize;
+  let goal = state.graphData.goal;
+  let xPosOfGoal = goal % colSize;
+  state.graphData.aStarMetaData = [];
+  for(let i = 0; i < rowSize * colSize; i++) {
+      let currXPosOfI = i % colSize;
+      let xRange = Math.abs(currXPosOfI - xPosOfGoal);
+      let goalRow = Math.floor(goal / colSize);
+      let currentRow = Math.floor(i / colSize);
+      let yRange = Math.abs(currentRow - goalRow);
+      state.graphData.aStarMetaData.push(xRange + yRange);
+  }
+}
+
 /*
     All algorithms related reducers,
     meaning solvers and maze generators
 */
-
 export default {
   setAlgorithm: (state, action) => {
     let { value, type } = action.payload;
     let algorithmDict;
+    if (value === "A*") setMetaDataForAStar(state);
     switch (type) {
       case "solve":
         algorithmDict = solvers;
@@ -23,7 +41,7 @@ export default {
     if (state.paused) return;
     //loop for not animating the building process
     do {
-      if (state.generationData.weighted && state.generationData.firstRun)
+      if (state.generationData.weighted && state.generationData.firstRun) {
         //Generate random weights for nodes
         state.graphData.vertices.forEach((v) => {
           if (v !== state.graphData.start && v !== state.graphData.goal) {
@@ -32,11 +50,11 @@ export default {
             state.graphData.data[v].value = 0;
           }
         });
-
+      }
       //Make one step in the generation process
       let f = generators[state.algorithms.generate];
       let { deltaWalls, deltaHoles, running, generationData, extraParams } = f(state.graphData, state.generationData);
-
+      console.log(deltaWalls, deltaHoles, current(generationData));
       //filter out the walls if needed (for Prim ,DFS and etc.)
       state.graphData.walls = [...state.graphData.walls.filter((v) => !deltaHoles.includes(v)), ...deltaWalls];
 

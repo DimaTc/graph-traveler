@@ -1,4 +1,5 @@
 import { restoreEdge, removeEdge, MAX_COST } from "../../GraphLogic";
+import {current} from "@reduxjs/toolkit";
 
 /*
     All graph manipulation related reducers
@@ -70,12 +71,20 @@ export default {
   placeNode: (state, action) => {
     let { type, id } = action.payload;
     let oldVal = state.graphData.data[id];
+    if (state.graphData[type] !== -1) {
+      let oldId = state.graphData[type];
+      state.graphData.data[oldId] = {...state.graphData.data[oldId], type: ""};
+    }
     state.graphData[type] = id;
     state.graphData.data[id] = { ...oldVal, type };
   },
 
+  setWeightCheck: (state, action) => {
+    state.weightCheck = action.payload;
+  },
+
   updateGraph: (state, action) => {
-    let { vertices, edges } = action.payload;
+      let { vertices, edges } = action.payload;
     state.graphData.vertices = vertices;
 
     //init vertices
